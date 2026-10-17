@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokedex</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/data.js" defer></script>
+    <script src="js/cards.js" defer></script>
+    <script src="js/script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Pokedex</h1>
+      <p>PokeAPI para buscar tus pokemones</p>
+    </header>
+    <main>
+      <h2>Buscar Pokemon</h2>
+
+      <label for="pokemon-search">Nombre del Pokémon:</label>
+
+      <div class="row">
+        <input id="pokemon-search" type="text" placeholder="Ejemplo: pikachu" />
+
+        <button id="search-button">Buscar</button>
+      </div>
+
+      <p id="status" role="status"></p>
+      <p id="result-count">0 resultados</p>
+
+      <section id="pokemon-grid" aria-label="Lista de Pokémon"></section>
+    </main>
+  </body>
+</html>
