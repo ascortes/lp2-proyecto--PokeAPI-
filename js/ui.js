@@ -1,3 +1,5 @@
+const pokemonGrid = document.querySelector("#pokemon-grid");
+
 function createPokemonCard(pokemon) {
   const pokemonName = pokemon.name || "Sin dato";
   const pokemonImage = pokemon.sprites.front_default || "";
