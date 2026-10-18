@@ -21,6 +21,7 @@ searchButton.addEventListener("click", async function () {
     const response = await searchPokemon(name);
 
     if (response.status === 404) {
+      clearPokemon();
       showStatus("No se encontró ese Pokémon.");
       resultCount.textContent = "0 resultados";
       return;

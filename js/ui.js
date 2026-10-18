@@ -16,3 +16,12 @@ function createPokemonCard(pokemon) {
 function showPokemon(pokemon) {
   pokemonGrid.innerHTML = createPokemonCard(pokemon);
 }
+function clearPokemon() {
+  pokemonGrid.innerHTML = `
+    <article class="not-found">
+      <h2>404</h2>
+      <p class="sad-face" aria-hidden="true">:(</p>
+      <p>Error</p>
+    </article>
+  `;
+}
