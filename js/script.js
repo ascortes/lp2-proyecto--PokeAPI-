@@ -17,22 +17,27 @@ searchButton.addEventListener("click", async function () {
 
   showStatus("Buscando Pokémon...");
 
-  const response = await searchPokemon(name);
+  try {
+    const response = await searchPokemon(name);
 
-  if (response.status === 404) {
-    showStatus("No se encontró ese Pokémon.");
-    resultCount.textContent = "0 resultados";
-    return;
+    if (response.status === 404) {
+      showStatus("No se encontró ese Pokémon.");
+      resultCount.textContent = "0 resultados";
+      return;
+    }
+
+    if (!response.ok) {
+      showStatus(`Ocurrió un error: ${response.status}`);
+      return;
+    }
+
+    const pokemon = await response.json();
+
+    showPokemon(pokemon);
+    resultCount.textContent = "1 resultado";
+    showStatus("");
+  } catch (error) {
+    showStatus("No hay conexión con el servidor.");
+    console.log(error);
   }
-
-  if (!response.ok) {
-    showStatus(`Ocurrió un error: ${response.status}`);
-    return;
-  }
-
-  const pokemon = await response.json();
-
-  showPokemon(pokemon);
-  resultCount.textContent = "1 resultado";
-  showStatus("");
 });
