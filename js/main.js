@@ -2,10 +2,37 @@ const searchInput = document.querySelector("#pokemon-search");
 const searchButton = document.querySelector("#search-button");
 const status = document.querySelector("#status");
 const resultCount = document.querySelector("#result-count");
+const showInitialButton = document.querySelector("#show-initial-button");
 
 function showStatus(text) {
   status.textContent = text;
 }
+
+async function loadInitialPokemon() {
+  showStatus("Cargando los primeros Pokémon...");
+
+const response = await getPokemonList();
+  if (!response.ok) {
+
+  showStatus(`Ocurrió un error: ${response.status}`);
+  return;
+}
+
+const listData = await response.json();
+const pokemonDetails = [];
+for (let i = 0; i < listData.results.length; i++) {
+  const pokemon = listData.results[i];
+  const detailResponse = await getPokemonDetails(pokemon.url);
+  const detail = await detailResponse.json();
+
+  pokemonDetails.push(detail);
+}
+showPokemonList(pokemonDetails);
+resultCount.textContent = pokemonDetails.length + " resultados";
+showStatus("");
+}
+
+
 
 searchButton.addEventListener("click", async function () {
   const name = searchInput.value;
@@ -42,3 +69,9 @@ searchButton.addEventListener("click", async function () {
     console.log(error);
   }
 });
+
+showInitialButton.addEventListener("click", function () {
+  loadInitialPokemon();
+});
+
+loadInitialPokemon();
