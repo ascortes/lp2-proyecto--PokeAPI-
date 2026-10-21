@@ -16,6 +16,11 @@ function createPokemonCard(pokemon) {
 function showPokemon(pokemon) {
   pokemonGrid.innerHTML = createPokemonCard(pokemon);
 }
+
+function showPokemonList(pokemonList) {
+  pokemonGrid.innerHTML = pokemonList.map(createPokemonCard).join("");
+}
+
 function clearPokemon() {
   pokemonGrid.innerHTML = `
     <article class="not-found">
@@ -25,3 +30,4 @@ function clearPokemon() {
     </article>
   `;
 }
+
