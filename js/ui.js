@@ -24,10 +24,11 @@ function showPokemonList(pokemonList) {
 function clearPokemon() {
   pokemonGrid.innerHTML = `
     <article class="not-found">
-      <h2>404</h2>
+      <h2>Sin resultados</h2>
       <p class="sad-face" aria-hidden="true">:(</p>
-      <p>Error</p>
+      <p>No encontramos ese Pokémon.</p>
     </article>
   `;
 }
+
 
