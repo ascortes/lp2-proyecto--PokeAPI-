@@ -10,30 +10,46 @@ function showStatus(text) {
 
 async function loadInitialPokemon() {
   showStatus("Cargando los primeros Pokémon...");
+  pokemonGrid.innerHTML = "";
+  resultCount.textContent = "0 resultados";
+
   searchButton.disabled = true;
   showInitialButton.disabled = true;
 
-  const response = await getPokemonList();
-  if (!response.ok) {
-    showStatus(`Ocurrió un error: ${response.status}`);
-    return;
+  try {
+    const response = await getPokemonList();
+
+    if (!response.ok) {
+      showStatus(`Ocurrió un error: ${response.status}`);
+      return;
+    }
+
+    const listData = await response.json();
+    const pokemonDetails = [];
+
+    for (let i = 0; i < listData.results.length; i++) {
+      const pokemon = listData.results[i];
+      const detailResponse = await getPokemonDetails(pokemon.url);
+
+      if (!detailResponse.ok) {
+        showStatus(`Ocurrió un error: ${detailResponse.status}`);
+        return;
+      }
+
+      const detail = await detailResponse.json();
+      pokemonDetails.push(detail);
+    }
+
+    showPokemonList(pokemonDetails);
+    resultCount.textContent = pokemonDetails.length + " resultados";
+    showStatus("");
+  } catch (error) {
+    showStatus("No se pudieron cargar los Pokémon. Revisa tu conexión.");
+    console.log(error);
+  } finally {
+    searchButton.disabled = false;
+    showInitialButton.disabled = false;
   }
-
-  const listData = await response.json();
-  const pokemonDetails = [];
-  for (let i = 0; i < listData.results.length; i++) {
-    const pokemon = listData.results[i];
-    const detailResponse = await getPokemonDetails(pokemon.url);
-    const detail = await detailResponse.json();
-
-    pokemonDetails.push(detail);
-  }
-  showPokemonList(pokemonDetails);
-  resultCount.textContent = pokemonDetails.length + " resultados";
-  showStatus("");
-
-  searchButton.disabled = false;
-  showInitialButton.disabled = false;
 }
 
 searchButton.addEventListener("click", async function () {
@@ -62,8 +78,8 @@ searchButton.addEventListener("click", async function () {
 
     if (!response.ok) {
       showStatus(`Ocurrió un error: ${response.status}`);
-        searchButton.disabled = false;
-  showInitialButton.disabled = false;
+      searchButton.disabled = false;
+      showInitialButton.disabled = false;
       return;
     }
 
