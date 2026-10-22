@@ -5,7 +5,7 @@ async function getPokemonList() {
   return response;
 }
 async function searchPokemon(name) {
-  const response = await fetch(`${API_URL}/${name.toLowerCase()}`);
+  const response = await fetch(`${API_URL}/${name}`);
   return response;
 }
 async function getPokemonDetails(pokemonUrl) {
